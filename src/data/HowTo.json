@@ -1,0 +1,66 @@
+{
+  "id": "verticalScrollView",
+  "items": [
+    {
+      "type": "text",
+      "content": "This module provides two React components: VerticalScroll and VerticalScrollSection, which together enable creating vertically scrollable pages with optional sticky headers, scroll velocity tracking, and scroll progress indication."
+    },
+    {
+      "type": "code snippet",
+      "content": "import React, { useRef, useEffect, useState } from \"react\";\nimport clsx from \"clsx\";\nimport styles from \"./styles/ScrollableVerticalView.module.scss\";\nimport ProgressBar from \"../Widgets/ProgressBar\";\n\nexport const VerticalScrollSection = ({ Header, children, sticky = false, narrow, screenSize }) => {\n  const headerClass = clsx(styles.sectionHeaderContainer, {\n    [styles.stickyHeader]: sticky,\n    [styles.narrow]: narrow,\n  });\n\n  const contentClass = clsx(styles.sectionContent, {\n    [styles.narrow]: narrow,\n  });\n\n  return (\n    <section className={styles.section}>\n      {Header && (\n        <div className={headerClass}>\n          <div className={`${styles.headerContentContainer} ${screenSize === \"sm\" && styles.mobile}`}>\n            <Header />\n          </div>\n        </div>\n      )}\n      <div className={contentClass}>{children}</div>\n    </section>\n  );\n};\n\nexport const VerticalScroll = ({\n  children,\n  trackVelocity = true,\n  trackScrollPercent,\n  staggerStart = false,\n}) => {\n  const scrollRef = useRef(null);\n  const [normalizedVelocity, setNormalizedVelocity] = useState(0);\n  const [direction, setDirection] = useState(\"None\");\n  const [scrollPercent, setScrollPercent] = useState(0);\n  const MAX_SCROLL_VELOCITY = 3000;\n\n  useEffect(() => {\n    if (!trackVelocity && !trackScrollPercent) return;\n\n    let lastScrollTop = 0;\n    let lastTime = performance.now();\n\n    const handleScroll = () => {\n      if (!scrollRef.current) return;\n\n      const el = scrollRef.current;\n      const scrollTop = el.scrollTop;\n      const now = performance.now();\n      const deltaY = scrollTop - lastScrollTop;\n      const deltaTime = now - lastTime || 1;\n\n      if (trackVelocity) {\n        const rawVelocity = (deltaY / deltaTime) * 1000;\n        const absVelocity = Math.abs(rawVelocity);\n        const clamped = Math.min(absVelocity / MAX_SCROLL_VELOCITY, 1);\n\n        setNormalizedVelocity(clamped.toFixed(2));\n        setDirection(deltaY > 0 ? \"Down\" : deltaY < 0 ? \"Up\" : \"None\");\n        lastScrollTop = scrollTop;\n        lastTime = now;\n      }\n\n      if (trackScrollPercent) {\n        const scrollHeight = el.scrollHeight - el.clientHeight;\n        const percent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;\n        setScrollPercent(Math.min(Math.max(percent, 0), 100).toFixed(1));\n      }\n    };\n\n    const el = scrollRef.current;\n    el?.addEventListener(\"scroll\", handleScroll);\n\n    return () => el?.removeEventListener(\"scroll\", handleScroll);\n  }, [trackVelocity, trackScrollPercent]);\n\n  const containerClass = clsx(\n    styles.scrollContainer,\n    trackVelocity\n      ? styles.scrollContainerVelocity\n      : styles.scrollContainerBounce\n  );\n\n  const enhancedChildren = React.Children.map(children, (child) => {\n    if (!React.isValidElement(child)) return child;\n\n    const isSection = child.type?.name === \"Section\";\n    return isSection\n      ? React.cloneElement(child, {\n          sticky: true,\n          narrow: child.props.narrow,\n        })\n      : child;\n  });\n\n  return (\n    <div ref={scrollRef} className={containerClass}>\n      {trackScrollPercent && (\n        <div className={styles.progressBarOverlay}>\n          <ProgressBar\n            lowerBound={0}\n            upperBound={100}\n            style={\"marker\"}\n            val={scrollPercent}\n            mappedtoinput\n          />\n        </div>\n      )}\n      <div className={styles.contentColumn}>\n        {staggerStart && <div className={styles.staggerSpacer} />}\n        {enhancedChildren}\n      </div>\n    </div>\n  );\n};"
+    },
+    {
+      "type": "text",
+      "content": "Component Descriptions:"
+    },
+    {
+      "type": "propList",
+      "content": [
+        {
+          "propname": "VerticalScrollSection Props",
+          "prop description": "Props for individual scrollable sections."
+        },
+        {
+          "propname": "Header",
+          "prop description": "A React component rendered as the section's header."
+        },
+        {
+          "propname": "children",
+          "prop description": "Content to display inside the section."
+        },
+        {
+          "propname": "sticky",
+          "prop description": "Boolean to make the header sticky at the top when scrolling. Defaults to false."
+        },
+        {
+          "propname": "narrow",
+          "prop description": "Boolean to apply narrow styling (compact width)."
+        },
+        {
+          "propname": "screenSize",
+          "prop description": "String to apply screen size specific styles (e.g., 'sm' for small)."
+        },
+        {
+          "propname": "VerticalScroll Props",
+          "prop description": "Props for the main scroll container component."
+        },
+        {
+          "propname": "children",
+          "prop description": "The content or VerticalScrollSection components inside the scroll area."
+        },
+        {
+          "propname": "trackVelocity",
+          "prop description": "Boolean to enable scroll velocity tracking and direction detection. Defaults to true."
+        },
+        {
+          "propname": "trackScrollPercent",
+          "prop description": "Boolean to enable showing the scroll progress percentage via a progress bar."
+        },
+        {
+          "propname": "staggerStart",
+          "prop description": "Boolean to add spacing before the first section to offset sticky headers."
+        }
+      ]
+    }
+  ]
+}

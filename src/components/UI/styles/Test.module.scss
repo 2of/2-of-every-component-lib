@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 16px;
+}
+
+.varBlock {
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color, #ccc);
+  min-width: 120px;
+  text-align: center;
+  font-weight: 500;
+
+  &[data-var="--text-color"] {
+    color: var(--text-color);
+  }
+
+  &[data-var="--bg"] {
+    background-color: var(--bg);
+    color: var(--text-color);
+  }
+
+  &[data-var="--border-color"] {
+    border-color: var(--border-color);
+  }
+
+  &[data-var="--accent"] {
+    background-color: var(--accent);
+    color: #fff;
+  }
+
+  &[data-var="--accent-hover"] {
+    background-color: var(--accent-hover);
+    color: #fff;
+  }
+
+  &[data-var="--accent-faint"] {
+    background-color: var(--accent-faint);
+    color: var(--text-color);
+  }
+
+  &[data-var="--bg-secondary"] {
+    background-color: var(--bg-secondary);
+    color: var(--text-color);
+  }
+
+  &[data-var="--muted"] {
+    color: var(--muted);
+  }
+
+  &[data-var="--muted-strong"] {
+    color: var(--muted-strong);
+  }
+
+  &[data-var="--highlight"] {
+    background-color: var(--highlight);
+    color: var(--text-color);
+  }
+}

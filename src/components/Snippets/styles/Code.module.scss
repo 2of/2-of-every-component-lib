@@ -1,0 +1,61 @@
+.codeBlock {
+  margin: 1rem 0;
+  padding: 12px;
+  border-radius: 8px;
+  overflow: auto;
+position: relative;
+  font-family: var(--monospace-font, monospace);
+  font-size: 0.9rem;
+  background-color: color-mix(in srgb, var(--bg), black 5%);
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid var(--border-color);
+
+  &.truncate { 
+max-height: 300px;
+overflow: scroll;
+  }
+
+
+
+.copyButton {
+  position: sticky;
+  top: 2px;
+  right: 2px;
+  background: var(--bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  z-index: 2;
+  opacity: 0.7;
+  float: right;
+
+}
+
+.pre {
+  margin: 0;
+  white-space: pre;
+}
+
+.line {
+  display: flex;
+  align-items: flex-start;
+}
+
+.lineNumber {
+  user-select: none;
+  width: 2em;
+  text-align: right;
+  margin-right: 1em;
+  color: var(--muted-text, #888);
+  flex-shrink: 0;
+}
+
+.codeContent {
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+}
