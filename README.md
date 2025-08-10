@@ -1,6 +1,6 @@
 # 2of.io UI Library
 
-Im just taking all of the bits I wrote from my little portfolio [2of.io](https://2of.io) project and flubbing them into a nice kit.
+Im just taking all of the bits I wrote from my little portfolio [2of.io](https://2of.io) project and flubbing them into a nice UI kit.
 
 ---
 
@@ -30,7 +30,7 @@ npm install 2of-components
 ```
 
 
-Install the package (eventually)
+Git
 ```bash
 git clone xxxx
 cd xxxx
