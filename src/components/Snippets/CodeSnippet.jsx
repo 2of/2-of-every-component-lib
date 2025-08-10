@@ -1,12 +1,12 @@
-import React from "react";
-import styles from "./styles/Code.module.scss"
-import { useState } from "react";
+import React, { useState } from "react";
+import styles from "./styles/Code.module.scss";
+
 export const SnippetCode = ({
   language = "plaintext",
   content = "",
-  className,
+  className = "",
   truncatable = false,
-  styles
+  // styles  <-- remove this from props to avoid shadowing
 }) => {
   const [copied, setCopied] = useState(false);
 
@@ -20,7 +20,9 @@ export const SnippetCode = ({
   const lines = content.split("\n");
 
   return (
-    <div className={`${styles.codeBlock} ${truncatable ? styles.truncate : ""} ${className} "standardMouseOverBounce"`}>
+    <div
+      className={`${styles.codeBlock} ${truncatable ? styles.truncate : ""} ${className} `}
+    >
       <button className={styles.copyButton} onClick={handleCopy}>
         {copied ? "✓ Copied" : "Copy"}
       </button>

@@ -1,0 +1,20 @@
+{
+  "themeCodeInjectorExample": "function InnerThemeWrapper({ children }) {\n  const { darkTheme: isDark } = useDarkMode();\n  const theme = {\n    ...baseTheme,\n    ...(isDark ? darkTheme : lightTheme),\n  };\n  // return ThemeProvider or your component here\n  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;\n}",
+
+
+  "themeCodeBaseExample": "export const baseTheme = {\n  \"--border-color\": \"rgb(51, 51, 51)\",\n  \"--text-color\": \"rgb(51, 51, 51)\",\n  \"--box-shadow\": \"rgb(51, 51, 51) 2px 2px 0 0\",\n  \"--border-radius\": \"4px\",\n  \"--bg-transparent\": \"var(--bg-transparent)\",  \n  \"--backdrop-filter\": \"blur(2px)\",\n};",
+
+  "pageDots-JSX": "<PageDots\n  n_dots={pageArray.length}\n  currentPage={currentPageIndex}\n  callback={handlePageDotClick}\n/>",
+  "pageDots-Sample-Usage": "// Handle page dot click to scroll to the respective section\nconst handlePageDotClick = (index) => {\n  if (sectionRefs.current[index]) {\n    sectionRefs.current[index].scrollIntoView({ behavior: \"smooth\" });\n    setCurrentPageIndex(index); // Set current page index when navigating via dots\n  }\n};",
+
+"featherdesc": "Feathers two images with tracking on cursor over, ideally you just set one grayscale, however you could triivally expand here to filter one image ",
+ "featherUsageExample": "<FeatherRevealImage\n  BaseImage={img1}\n  RevealedImage={img2}\n  radius={120}\n/>",
+
+"glassdesc" : "simple cursor tracked glass transform with grad tracking, just whack children inside",
+"glass-Sample-Usage" : "<GlassPushOverlay>\n  <div className={styles.imgContainer}>\n    <img src={img2} />\n  </div>\n</GlassPushOverlay>",
+
+
+
+"imageModalDesc" : "use ImageModal instead of img, supports formatting and full screen on click with interpolated animation and renders a 'placeholder' below",
+"imageModalCode" : "<ImageModal src={imageSource}/>"
+}

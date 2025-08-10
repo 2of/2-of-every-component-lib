@@ -1,0 +1,73 @@
+{
+  "title": "StandardButton Component",
+  "description": "A versatile and accessible button component supporting multiple visual variants, optional icons, tooltips, and navigation/link behavior. It handles internal routing, external links, email links, and disables interactions gracefully.",
+  "propsList": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"no label\"",
+      "description": "Text label displayed inside the button."
+    },
+    {
+      "name": "callback",
+      "type": "function",
+      "default": "undefined",
+      "description": "Optional function to call on button click."
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"iconLabel\" | \"text\" | \"large\" | \"titled\" | \"compact\" | \"article\"",
+      "default": "\"default\"",
+      "description": "Visual style variant determining button layout and styling."
+    },
+    {
+      "name": "tooltip",
+      "type": "string",
+      "default": "undefined",
+      "description": "Text to show as a tooltip on hover (desktop only)."
+    },
+    {
+      "name": "link",
+      "type": "string",
+      "default": "undefined",
+      "description": "URL or internal route to navigate to when clicked."
+    },
+    {
+      "name": "icon",
+      "type": "ReactNode",
+      "default": "undefined",
+      "description": "Optional icon element to display inside the button."
+    },
+    {
+      "name": "disable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the button interaction and styles it accordingly."
+    },
+    {
+      "name": "headertitle",
+      "type": "string",
+      "default": "\"\"",
+      "description": "Optional header text displayed above or alongside the label in certain variants."
+    },
+    {
+      "name": "external",
+      "type": "boolean",
+      "default": "false",
+      "description": "If true, shows an external link icon and opens the link in a new tab."
+    },
+    {
+      "name": "fillContainer",
+      "type": "boolean",
+      "default": "false",
+      "description": "If true, button fills its container's width and height."
+    },
+    {
+      "name": "mobile",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables tooltip and adjusts interaction for mobile devices."
+    }
+  ],
+  "codesample": "      <StandardButton\n        headertitle=\"Section Title\"\n        label=\"Click Me\"\n        variant=\"withlabel\"\n        icon={getIcon(\"chevronRight\")}\n        callback={() => console.log(\"With Label clicked\")}\n      />"
+}

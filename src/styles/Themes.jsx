@@ -41,7 +41,7 @@ export const darkTheme = {
   "--text-color": "#eee",
   "--bg": "#111",
   "--border-color": "#333",
-  "--accent": "#0af",
+  "--accent": "#743a43ff",
   "--accent-hover": "#08c",
   "--accent-faint": "#002b40",
   "--bg-secondary": "#1c1c1c",
@@ -72,4 +72,14 @@ export const darkTheme = {
   "--shadow-sm": "0 1px 2px rgba(255,255,255,0.05)",
   "--shadow-md": "0 2px 4px rgba(255,255,255,0.1)",
   "--shadow-lg": "0 4px 8px rgba(255,255,255,0.15)",
+};
+
+
+export const baseTheme = {
+  "--border-color": "rgb(51, 51, 51)",
+  "--text-color": "rgb(51, 51, 51)",
+  "--box-shadow": "rgb(51, 51, 51) 2px 2px 0 0",
+  "--border-radius": "4px",
+  "--bg-transparent": "var(--bg-transparent)",  
+  "--backdrop-filter": "blur(2px)",
 };

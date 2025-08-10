@@ -4,20 +4,67 @@ import { useTooltip } from "../../contexts/ToolTipProvider";
 import getIcon from "../../utilities/IconProvider";
 import styles from "./styles/StandardButton.module.scss";
 
-const VALID_TYPES = [
-  "drop",
-  "link",
-  "text-only",
-  "basic_Expand",
-  "withlabel",
-  "basic_small",
+// Shared wrapper for consistent spacing and layout
+const ContentWrapper = ({ children, variantClass }) => (
+  <div className={`${styles.expandWrapper}  ${"StandardFlatStyle"} ${"standardMouseOverBounce"} ${variantClass || ""}`.trim()}>
+    
+    {children}
+  </div>
+);
+
+const TextButton = ({ label }) => (
+  <ContentWrapper variantClass={styles.text}>
+    <span className={styles.label}>{label}</span>
+  </ContentWrapper>
+);
+
+const IconLabelButton = ({ icon, label }) => (
+  <ContentWrapper variantClass={styles.iconLabel}>
+    {icon && <span className={styles.icon}>{icon}</span>}
+    {label && <span className={styles.label}>{label}</span>}
+  </ContentWrapper>
+);
+
+const LargeButton = ({ label, icon }) => (
+  <ContentWrapper variantClass={styles.large}>
+    {label && <span className={styles.label}>{label}</span>}
+    {icon && <span className={styles.icon}>{icon}</span>}
+  </ContentWrapper>
+);
+
+const TitledButton = ({ headertitle, label, icon }) => (
+  <ContentWrapper variantClass={styles.titled}>
+    {headertitle && <span className={styles.headertitle}>{headertitle}</span>}
+    {label && <span className={styles.label}>{label}     {icon && <span className={styles.icon}>{icon}</span>} </span>}
+
+  </ContentWrapper>
+);
+
+const DefaultButton = ({ label, icon }) => (
+  <ContentWrapper variantClass={styles.default}>
+    {label && <span className={styles.label}>{label}</span>}
+    {icon && <span className={styles.icon}>{icon}</span>}
+  </ContentWrapper>
+);
+
+const ArticleButton = TitledButton;
+
+const CompactButton = DefaultButton;
+
+const VALID_VARIANTS = [
+  "default",
+  "iconLabel",
+  "text",
+  "large",
+  "titled",
+  "compact",
   "article",
 ];
 
 export const StandardButton = ({
   label = "no label",
   callback,
-  type = "drop",
+  variant = "default",
   tooltip,
   link,
   icon,
@@ -30,10 +77,8 @@ export const StandardButton = ({
   const { showTooltip, hideTooltip } = useTooltip();
   const navigate = useNavigate();
 
-  const safeType = VALID_TYPES.includes(type) ? type : "drop";
+  const safeVariant = VALID_VARIANTS.includes(variant) ? variant : "default";
   const externalIcon = external ? getIcon("external") : null;
-
-  const isMobile = mobile;
 
   const handleClick = (e) => {
     if (disable) {
@@ -59,7 +104,7 @@ export const StandardButton = ({
   };
 
   const handleMouseMove = (e) => {
-    if (!isMobile && !disable && tooltip) {
+    if (!mobile && !disable && tooltip) {
       showTooltip(tooltip, e);
     }
   };
@@ -71,72 +116,33 @@ export const StandardButton = ({
     }
   };
 
-  const getClassName = () => {
-    return [
-      styles.button,
-      styles[safeType] || styles.drop,
-      disable && styles.disabled,
-      fillContainer && styles.fillContainer,
-      isMobile && styles.mobile,
-      "standardMouseOverBounce",
-    ]
-      .filter(Boolean)
-      .join(" ");
-  };
+  const classNames = [
+    styles.button,
+    disable && styles.disabled,
+    fillContainer && styles.fillContainer,
+    mobile && styles.mobile,
+    "standardMouseOverBounce",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
-  const renderContent = () => {
-    const Label = label && <span className={styles.label}>{label}</span>;
-    const Icon = icon && <span className={styles.icon}>{icon}</span>;
-    const Header = headertitle && <span className={styles.headertitle}>{headertitle}</span>;
-
-    switch (safeType) {
-      case "text-only":
-        return Label;
-
-      case "link":
-        return (
-          <>
-            {Icon}
-            {Label}
-          </>
-        );
-
-      case "basic_Expand":
-        return (
-          <div className={styles.expandWrapper}>
-            {Label}
-            {Icon}
-          </div>
-        );
-
-      case "article":
-      case "withlabel":
-        return (
-          <div className={styles.expandWrapper}>
-            {Header}
-            {Label}
-            {Icon}
-          </div>
-        );
-
-      case "drop":
-      default:
-        return (
-          <>
-            {Label}
-            {Icon}
-          </>
-        );
-    }
+  const variantComponents = {
+    default: <DefaultButton label={label} icon={icon} />,
+    iconLabel: <IconLabelButton icon={icon} label={label} />,
+    text: <TextButton label={label} />,
+    large: <LargeButton label={label} icon={icon} />,
+    titled: <TitledButton headertitle={headertitle} label={label} icon={icon} />,
+    article: <ArticleButton headertitle={headertitle} label={label} icon={icon} />,
+    compact: <CompactButton label={label} icon={icon} />,
   };
 
   return (
     <button
-      className={getClassName()}
+      className={classNames}
       onClick={handleClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={hideTooltip}
-      onTouchStart={() => {}} // Optionally use for mobile
+      onTouchStart={() => {}} // placeholder for mobile
       onKeyDown={handleKeyDown}
       aria-label={label}
       aria-disabled={disable}
@@ -144,7 +150,7 @@ export const StandardButton = ({
       type="button"
       style={{ position: "relative" }}
     >
-      {renderContent()}
+      {variantComponents[safeVariant]}
       {externalIcon && (
         <span className={styles.externalCornerIcon}>{externalIcon}</span>
       )}

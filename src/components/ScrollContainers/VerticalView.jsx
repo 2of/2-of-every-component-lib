@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "./styles/ScrollableVerticalView.module.scss";
 import ProgressBar from "../Widgets/ProgressBar";
 
-export const VerticalScrollSection = ({ Header, children, sticky = false, narrow ,screenSize}) => {
+export const VerticalScrollSection = ({ Header, children, sticky = true, narrow ,screenSize}) => {
   const headerClass = clsx(styles.sectionHeaderContainer, {
     [styles.stickyHeader]: sticky,
     [styles.narrow]: narrow,

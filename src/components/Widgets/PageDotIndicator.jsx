@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styles from "./styles/PageDotIndicator.module.scss";
-import { TooltipProvider, useTooltip } from "../../contexts/tooltip"
+import { useTooltip } from "../../contexts/ToolTipProvider";
 const PageDots = ({ n_dots = 12, currentPage = 0, callback }) => {
   const [activeIndex, setActiveIndex] = useState(currentPage);
     const { showTooltip, hideTooltip } = useTooltip();

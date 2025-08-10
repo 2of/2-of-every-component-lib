@@ -39,7 +39,7 @@
   }
 
   &.active {
-    background-color: var(--accent-color);
+    background-color: var(--accent);
     animation: popIn 0.3s ease;
   }
 }

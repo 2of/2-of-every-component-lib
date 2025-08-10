@@ -1,0 +1,49 @@
+{
+  "title": "StandardRadioButtons Component",
+  "description": "A customizable radio button group component supporting horizontal or vertical layout, two variants ('default' and 'icon'), optional tooltips, and animated feedback when selecting options without icons.",
+  "propsList": [
+    {
+      "name": "options",
+      "type": "Array<{ value: string | number, label?: string, icon?: ReactNode }>",
+      "default": "[]",
+      "description": "List of radio options to display, each with a value and optional label and icon."
+    },
+    {
+      "name": "selectedValue",
+      "type": "string | number",
+      "default": "undefined",
+      "description": "Currently selected value of the radio group."
+    },
+    {
+      "name": "onChange",
+      "type": "(value: string | number) => void",
+      "default": "undefined",
+      "description": "Callback fired when the selected option changes, receiving the new value."
+    },
+    {
+      "name": "label",
+      "type": "string",
+      "default": "\"\"",
+      "description": "Optional group label displayed above the radio buttons."
+    },
+    {
+      "name": "layout",
+      "type": "\"horizontal\" | \"vertical\"",
+      "default": "\"vertical\"",
+      "description": "Layout direction of the radio buttons."
+    },
+    {
+      "name": "tooltip",
+      "type": "string",
+      "default": "undefined",
+      "description": "Optional tooltip text shown on mouse hover (desktop only)."
+    },
+    {
+      "name": "variant",
+      "type": "\"default\" | \"icon\"",
+      "default": "\"default\"",
+      "description": "Visual style variant. 'default' uses classic radio circles and labels; 'icon' uses icons with wiggle animation on selection if no icon is provided."
+    }
+  ],
+  "codesample": "import React, { useState } from 'react';\nimport { StandardRadioButtons } from './components/StandardRadioButtons';\nimport { getIcon } from './utilities/IconProvider';\n\nexport const RadioExample = () => {\n  const [value, setValue] = useState('option1');\n\n  const options = [\n    { value: 'option1', label: 'Option 1' },\n    { value: 'option2', label: 'Option 2' },\n    { value: 'option3', label: 'Option 3', icon: getIcon('star') },\n  ];\n\n  return (\n    <StandardRadioButtons\n      options={options}\n      selectedValue={value}\n      onChange={setValue}\n      label=\"Choose an option\"\n      layout=\"horizontal\"\n      variant=\"icon\"\n      tooltip=\"Select one of the options\"\n    />\n  );\n};"
+}

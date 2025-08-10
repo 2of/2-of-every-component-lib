@@ -1,0 +1,19 @@
+@import './styles/BaseStyles';
+@import './styles/Animations';
+@import url('https://fonts.googleapis.com/css2?family=Newsreader&display=swap');
+
+:root {
+  --font-primary: 'Newsreader', serif;
+  --font-size-base: 16px;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}

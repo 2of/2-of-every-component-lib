@@ -19,7 +19,7 @@ import {
   FaBan,
   FaTag
 } from "react-icons/fa"; 
-import { FaPencil } from "react-icons/fa6";
+import { FaPencil, FaRadio } from "react-icons/fa6";
 
 const getIcon = (iconName = "default") => {
   const iconMap = {
@@ -54,6 +54,7 @@ const getIcon = (iconName = "default") => {
     menu: <FaBars />,
     expand: <FaExpandAlt />,
     file: <FaFile />,
+    radio: <FaRadio/>,
     github: <FaGithub />,
     linkedin: <FaLinkedin />,
     junk: <FaFish />,

@@ -1,0 +1,19 @@
+.flexArea { 
+    // background-color: red;
+    display: flex;
+    justify-content: space-around;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.smallcontainer { 
+    // background-color: red;
+    height: 100px;
+    width: 100px;
+    position: relative;
+}
+
+.averageContainer { 
+    width: 400px;
+}
