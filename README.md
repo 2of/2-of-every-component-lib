@@ -62,17 +62,89 @@ A collection of reusable React UI components and utilities.
 
 ## Usage
 
-```js
-import { StandardButton, ImageModal, RowView } from "2-of-every-component-lib";
+# Theming and Providers Usage
+
+This library uses a flexible provider system to handle theming (light/dark mode), tooltips, and more.  
+Below is an example of how the providers are composed and how you should use them in your app.
+
+---
+
+## Example: `PackageProviders`
+
+```jsx
+import React from "react";
+import { TooltipProvider } from "./contexts/ToolTipProvider";
+import { ThemeProvider } from "./contexts/ThemeProvider"; // Applies CSS variables
+import { DarkModeProvider, useDarkMode } from "./contexts/DarkModeProvider";
+import { lightTheme, darkTheme, baseTheme } from "./styles/Themes";
+
+function InnerThemeWrapper({ children }) {
+  const { darkMode: isDark } = useDarkMode();
+  const theme = {
+    ...baseTheme,
+    ...(isDark ? darkTheme : lightTheme),
+  };
+
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+}
+
+export function PackageProviders({ children }) {
+  return (
+    <DarkModeProvider>
+      <TooltipProvider>
+        <InnerThemeWrapper>{children}</InnerThemeWrapper>
+      </TooltipProvider>
+    </DarkModeProvider>
+  );
+}
 ```
 
-Wrap your app with providers if needed:
+---
 
-```js
-import { PackageProviders } from "2-of-every-component-lib";
+## How to Use
 
-<PackageProviders>
-  <App />
+1. **Wrap your app with `PackageProviders`:**
+
+   ```jsx
+   import { PackageProviders } from "2-of-every-component-lib";
+
+   function App() {
+     return (
+       <PackageProviders>
+         {/* Your app components here */}
+       </PackageProviders>
+     );
+   }
+   ```
+
+2. **How it works:**
+   - `DarkModeProvider` supplies dark mode context.
+   - `TooltipProvider` enables tooltips throughout your app.
+   - `InnerThemeWrapper` uses the current dark mode state to select and apply the correct theme (light or dark) using `ThemeProvider`.
+   - `ThemeProvider` sets CSS variables globally, so your styles can use them.
+
+3. **Use CSS variables in your styles in theme and just define as jsx :**
+
+   ```css
+   body {
+     background: var(--color-bg);
+     color: var(--color-text);
+   }
+   ```
+
+---
+
+## Customizing Themes
+
+You can customize `lightTheme`, `darkTheme`, and `baseTheme` in `./styles/Themes.js` to fit your brand or app needs; just override as needed
+
+---
+
+
+
+**Tip:**  
+All components in this library will automatically use the correct theme if you wrap your app with `PackageProviders
+
 Documentation is also available in /src/data  as JSON (it renders out to the / path anyway as below)
 
 
