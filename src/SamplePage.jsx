@@ -2,6 +2,7 @@ import React from "react";
 import getIcon from "./utilities/IconProvider";
 import styles from "./SamplePage.module.scss";
 import { useState } from "react";
+import { useCallback } from "react";
 import { TestComponent } from "./components/UI/TestComponent";
 import {
   VerticalScroll,
@@ -27,6 +28,7 @@ import GlassPushOverlay from "./components/Widgets/GlassContainer";
 import ImageModal from "./components/UI/ImageModal";
 import StandardToggle from "./components/UI/StandardToggle";
 import { DarkModeWrapper } from "./components/Wrappers/DarkModeToggleWrapper";
+import { StandardTextField } from "./components/UI/StandardTextField";
 const StandardHeaderDesktop = ({ title, subtitle, icon }) => (
   <div className={styles.StandardHeaderDesktop}>
     <TypeWriterHeader title={title} icon={icon} subtitle={subtitle} />
@@ -36,9 +38,21 @@ const StandardHeaderDesktop = ({ title, subtitle, icon }) => (
 export const SamplePage = () => {
   const [selectedRadio, setSelectedRadio] = useState("First");
  const [selectedToggle, setSelectedToggle] = useState(false)
+const [defaultField, setDefaultField] = useState("");
+const [flatField, setFlatField] = useState("");
+const [headerField, setHeaderField] = useState("");
+const [withHeaderTextField, setWithHeaderTextField] = useState("");
+const handleChange = useCallback((setter) => (value) => {
+  setter(value);
+}, []);
+
+
+
+
+
   return (
     <>
-      <VerticalScroll trackScrollPercent>
+      <VerticalScroll trackScrollPercent staggerStart>
         <VerticalScrollSection
           Header={() => (
             <StandardHeaderDesktop
@@ -48,13 +62,29 @@ export const SamplePage = () => {
             />
           )}
         >
-          <h1>Sample page for UIkit below</h1>
-          {text.items.map((item, index) => {
-            if (item.type === "text") {
-              return <p key={index}>{item.content}</p>;
-            }
-            return null;
-          })}
+          <h1>{AllText.headerText}</h1>
+            <h3>{AllText.headerDescription}</h3>
+
+
+            <p>
+
+
+                {AllText.scrollVerticleExplainer}
+            </p>
+
+
+
+            <SnippetCode content={AllText.scrollVerticleCode}/>
+            <h3>{AllText.tiktokTitle}</h3>
+
+
+            <p>
+
+
+                {AllText.tiktokviewExplainer}
+            </p>
+
+
         </VerticalScrollSection>
 
         <VerticalScrollSection
@@ -198,7 +228,29 @@ We can also wrap toggles to use global contexts i.e.
             </CollapsableContainer>
           </div>
         </VerticalScrollSection>
+ <VerticalScrollSection
+          Header={() => (
+            <StandardHeaderDesktop
+              title={"Buttons"}
+              subtitle={"This is the subtitle"}
+              icon={getIcon("tasks")}
+            />
+          )}
+        >
 
+
+
+  
+
+<StandardTextField
+  label="Default Field"
+  variant="default"
+  defaultValue={defaultField}
+  onChange={handleChange(setDefaultField)}
+  placeholder="Type something..."
+/>
+
+        </VerticalScrollSection>
         <VerticalScrollSection
           Header={() => (
             <StandardHeaderDesktop

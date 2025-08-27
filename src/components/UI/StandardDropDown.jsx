@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import styles from "./Dropdown.module.scss";
-import { useTooltip } from "../../contexts/tooltip";
+import styles from "./styles/StandardDropDown.module.scss";
+import { useTooltip } from "../../contexts/ToolTipProvider";
 
 export const StandardDropdown = ({
   options = [],

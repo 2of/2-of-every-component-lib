@@ -1,8 +1,16 @@
 {
   "name": "2-of-every-component-lib",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
+  "main": "dist/2-of-every-component-lib.umd.js",
+  "module": "dist/2-of-every-component-lib.es.js",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

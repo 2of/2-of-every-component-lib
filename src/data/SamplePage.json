@@ -1,4 +1,16 @@
 {
+
+    "headerText" : "This is a sampler for the UIkit",
+    "headerDescription" : "Full documentation available here",
+
+    "scrollVerticleExplainer" : "Note: This page is within a <VerticalScroll/> component, Vertical scroll supports sticky headers, scroll progress percentages, scrollVelocity and staggered starts. Content is structured as VerticalScroll has VerticalScrollSection, which can have children and an optional header as such",
+    "scrollVerticleCode" : "<VerticalScroll trackScrollPercent staggerStart>\n  <VerticalScrollSection\n    Header={() => (\n      <StandardHeaderDesktop\n        title={\"This is a the top header\"}\n        subtitle={\"This is the subtitle\"}\n        icon={getIcon(\"smile\")}\n      />\n    )}\n  >\n    <h1>{AllText.headerText}</h1>\n    <h3>{AllText.headerDescription}</h3>\n    <p>{AllText.scrollVerticleExplainer}</p>\n  </VerticalScrollSection>\n</VerticalScroll>",
+
+
+    "tiktokTitle" : "What about Mobile views?",
+    "tiktokviewExplainer" : "While this view is mobile friendly and reesponsive :) An alternate view is the PagedMobileView, which gives a 'tiktok' esque view for scrolling", 
+
+
   "themeCodeInjectorExample": "function InnerThemeWrapper({ children }) {\n  const { darkTheme: isDark } = useDarkMode();\n  const theme = {\n    ...baseTheme,\n    ...(isDark ? darkTheme : lightTheme),\n  };\n  // return ThemeProvider or your component here\n  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;\n}",
 
 
