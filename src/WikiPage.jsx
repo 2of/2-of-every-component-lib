@@ -1,5 +1,8 @@
 import React from 'react';
 
+
+"This code is totally generated, just wanted osmething lazy to get my other stuff documented"
+
 const wikiStyles = {
     container: { fontFamily: 'Arial, sans-serif', padding: '20px', maxWidth: '1200px', margin: '0 auto' },
     nav: { position: 'fixed', top: '20px', left: '20px', width: '200px', padding: '10px', borderRight: '1px solid #ccc', maxHeight: '90vh', overflowY: 'auto' },
