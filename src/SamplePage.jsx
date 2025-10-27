@@ -53,7 +53,7 @@ const handleChange = useCallback((setter) => (value) => {
   return (
     <>
       <VerticalScroll trackScrollPercent staggerStart>
-        <VerticalScrollSection
+        <VerticalScrollSection sticky
           Header={() => (
             <StandardHeaderDesktop
               title={"This is a the top header"}
@@ -157,6 +157,7 @@ We can also wrap toggles to use global contexts i.e.
 
         </VerticalScrollSection>
         <VerticalScrollSection
+        sticky
           Header={() => (
             <StandardHeaderDesktop
               title={"Buttons"}
@@ -166,63 +167,94 @@ We can also wrap toggles to use global contexts i.e.
           )}
         >
           <div className={styles.flexArea}>
+
+
+
             <StandardButton
-              label="Default Drop"
+              label="drop"
               variant="drop"
               icon={getIcon("menu")}
-              callback={() => console.log("Drop clicked")}
+              callback={() => console.log("drop clicked")}
             />
 
-            {/* link */}
             <StandardButton
-              label="Go to Docs"
-              variant="iconLabel"
+              label="link"
+              variant="link"
               icon={getIcon("link")}
-              link="https://react.dev"
+              link="https://example.com"
               external
             />
 
-            {/* text-only */}
             <StandardButton
-              label="Just Text"
-              variant="text"
-              callback={() => console.log("Text button clicked")}
+              label="text-only"
+              variant="text-only"
+              callback={() => console.log("text-only clicked")}
             />
 
-            {/* basic_Expand */}
             <StandardButton
-              label="Large Button"
-              variant="large"
-              icon={getIcon("chess")}
-              callback={() => console.log("Basic Expand clicked")}
+              label="basic_Expand"
+              variant="basic_Expand"
+              icon={getIcon("search")}
+              callback={() => console.log("basic_Expand clicked")}
             />
 
-            {/* withlabel */}
             <StandardButton
               headertitle="Section Title"
-              label="Click Me"
+              label="withlabel"
               variant="withlabel"
-              icon={getIcon("chevronRight")}
-              callback={() => console.log("With Label clicked")}
+              icon={getIcon("info")}
+              callback={() => console.log("withlabel clicked")}
             />
 
-            {/* basic_small */}
             <StandardButton
-              label="Small Action"
-              variant="compact"
+              label="basic_small"
+              variant="basic_small"
               icon={getIcon("plus")}
-              callback={() => console.log("Basic Small clicked")}
+              callback={() => console.log("basic_small clicked")}
             />
 
-            {/* article */}
             <StandardButton
-              headertitle="Breaking News"
-              label="Read More"
+              headertitle="News"
+              label="article"
               variant="article"
               icon={getIcon("article")}
-              callback={() => console.log("Article clicked")}
+              callback={() => console.log("article clicked")}
+            />
+            
+            <StandardButton
+              label="subtle"
+              variant="subtle"
+              callback={() => console.log("subtle clicked")}
             />
 
+            <StandardButton
+              label="rounded"
+              variant="rounded"
+              icon={getIcon("user")}
+              callback={() => console.log("rounded clicked")}
+            />
+
+            <StandardButton
+              headertitle="Profile"
+              label="rounded_label"
+              variant="rounded_label"
+              icon={getIcon("user")}
+              callback={() => console.log("rounded_label clicked")}
+            />
+
+            <StandardButton
+              label="icon_only"
+              variant="icon_only"
+              icon={getIcon("settings")}
+              callback={() => console.log("icon_only clicked")}
+            />
+
+            <StandardButton
+              label="featured"
+              variant="featured"
+              icon={getIcon("star")}
+              callback={() => console.log("featured clicked")}
+            />
             <CollapsableContainer title="Usage">
               <RenderSample data={ButtonText} />
             </CollapsableContainer>

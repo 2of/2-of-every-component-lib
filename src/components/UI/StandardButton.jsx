@@ -4,67 +4,25 @@ import { useTooltip } from "../../contexts/ToolTipProvider";
 import getIcon from "../../utilities/IconProvider";
 import styles from "./styles/StandardButton.module.scss";
 
-// Shared wrapper for consistent spacing and layout
-const ContentWrapper = ({ children, variantClass }) => (
-  <div className={`${styles.expandWrapper}  ${"StandardFlatStyle"} ${"standardMouseOverBounce"} ${variantClass || ""}`.trim()}>
-    
-    {children}
-  </div>
-);
-
-const TextButton = ({ label }) => (
-  <ContentWrapper variantClass={styles.text}>
-    <span className={styles.label}>{label}</span>
-  </ContentWrapper>
-);
-
-const IconLabelButton = ({ icon, label }) => (
-  <ContentWrapper variantClass={styles.iconLabel}>
-    {icon && <span className={styles.icon}>{icon}</span>}
-    {label && <span className={styles.label}>{label}</span>}
-  </ContentWrapper>
-);
-
-const LargeButton = ({ label, icon }) => (
-  <ContentWrapper variantClass={styles.large}>
-    {label && <span className={styles.label}>{label}</span>}
-    {icon && <span className={styles.icon}>{icon}</span>}
-  </ContentWrapper>
-);
-
-const TitledButton = ({ headertitle, label, icon }) => (
-  <ContentWrapper variantClass={styles.titled}>
-    {headertitle && <span className={styles.headertitle}>{headertitle}</span>}
-    {label && <span className={styles.label}>{label}     {icon && <span className={styles.icon}>{icon}</span>} </span>}
-
-  </ContentWrapper>
-);
-
-const DefaultButton = ({ label, icon }) => (
-  <ContentWrapper variantClass={styles.default}>
-    {label && <span className={styles.label}>{label}</span>}
-    {icon && <span className={styles.icon}>{icon}</span>}
-  </ContentWrapper>
-);
-
-const ArticleButton = TitledButton;
-
-const CompactButton = DefaultButton;
-
-const VALID_VARIANTS = [
-  "default",
-  "iconLabel",
-  "text",
-  "large",
-  "titled",
-  "compact",
+const validTypes = [
+  "drop",
+  "link",
+  "text-only",
+  "basic_Expand",
+  "withlabel",
+  "basic_small",
   "article",
+  "subtle",
+  "rounded",
+  "rounded_label",
+  "icon_only",
+  "featured"
 ];
-
 export const StandardButton = ({
   label = "no label",
   callback,
-  variant = "default",
+  // type = "drop",
+  variant,
   tooltip,
   link,
   icon,
@@ -72,19 +30,29 @@ export const StandardButton = ({
   headertitle = "",
   external = false,
   fillContainer = false,
-  mobile = false,
+  nointeractEffects = false,
+  isMobile = false,
+
+  styles: customStyles = {}, // <-- new prop for custom inline styles
 }) => {
+  let type = variant
+
   const { showTooltip, hideTooltip } = useTooltip();
   const navigate = useNavigate();
-
-  const safeVariant = VALID_VARIANTS.includes(variant) ? variant : "default";
+  const safeType = validTypes.includes(type) ? type : "drop";
   const externalIcon = external ? getIcon("external") : null;
 
-  const handleClick = (e) => {
-    if (disable) {
-      e.preventDefault();
-      return;
-    }
+  const setButtonClass = () => {
+    const baseClass = styles.button;
+    const typeClass = styles[safeType] || styles.drop;
+    const disabledClass = disable ? styles.disabled : "";
+    const fillClass = fillContainer ? styles.fillContainer : "";
+    const mobileClass = isMobile ? styles.mobile : "";
+    return `${baseClass} ${typeClass} ${disabledClass} ${fillClass} ${mobileClass}`.trim();
+  };
+
+  const handleClick = () => {
+    if (disable) return;
 
     if (link) {
       const isExternal = /^https?:\/\//.test(link);
@@ -94,7 +62,8 @@ export const StandardButton = ({
       if (isExternal) {
         window.open(link, "_blank");
       } else if (isEmail || isEmailAddress) {
-        window.location.href = isEmail ? link : `mailto:${link}`;
+        const mailtoLink = isEmail ? link : `mailto:${link}`;
+        window.location.href = mailtoLink;
       } else {
         navigate(link);
       }
@@ -104,56 +73,150 @@ export const StandardButton = ({
   };
 
   const handleMouseMove = (e) => {
-    if (!mobile && !disable && tooltip) {
+    if (!isMobile && !disable && tooltip) {
       showTooltip(tooltip, e);
     }
   };
 
+  const handleTouchStart = (e) => {
+    // Optional: showTooltip on touch if you ever make mobile tooltips
+    // Currently we just suppress it
+  };
+
   const handleKeyDown = (e) => {
-    if ((e.key === "Enter" || e.key === " ") && !disable) {
+    if (!disable && (e.key === "Enter" || e.key === " ")) {
       e.preventDefault();
-      handleClick(e);
+      handleClick();
     }
   };
 
-  const classNames = [
-    styles.button,
-    disable && styles.disabled,
-    fillContainer && styles.fillContainer,
-    mobile && styles.mobile,
-    "standardMouseOverBounce",
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const renderContent = () => {
+    const Label = label && <span className={styles.label}>{label}</span>;
+    const Icon = icon && <span className={styles.icon}>{icon}</span>;
 
-  const variantComponents = {
-    default: <DefaultButton label={label} icon={icon} />,
-    iconLabel: <IconLabelButton icon={icon} label={label} />,
-    text: <TextButton label={label} />,
-    large: <LargeButton label={label} icon={icon} />,
-    titled: <TitledButton headertitle={headertitle} label={label} icon={icon} />,
-    article: <ArticleButton headertitle={headertitle} label={label} icon={icon} />,
-    compact: <CompactButton label={label} icon={icon} />,
+    switch (safeType) {
+      case "text-only":
+        return (
+          <>
+            {Icon}
+            {Label}
+          </>
+        );
+
+      case "link":
+        return (
+          <>
+            {Icon}
+            {Label}
+          </>
+        );
+
+      case "rounded":
+        return (
+          <>
+            {Icon}
+
+            {/* {Label} */}
+          </>
+        );
+     
+      case "featured":
+        return (
+          <>
+            {Label}
+            {Icon}
+     </>
+        );
+
+ case "icon_only":
+        return (
+
+          <>
+  
+
+            {Icon}
+
+
+          </>
+        );
+      case "basic_Expand":
+        return (
+          <div className={styles.expandWrapper}>
+            {Label}
+            {Icon}
+          </div>
+        );
+      case "rounded_label":
+        return (
+          <>
+            <p>
+              <span>
+               {Icon}  {Label}
+              </span>
+            </p>
+
+            {/* {Label} */}
+          </>
+        );
+      case "article":
+        return (
+          <div className={styles.expandWrapper}>
+            {headertitle && <span>{headertitle}</span>}
+            {Icon}
+            {Label}
+          </div>
+        );
+
+      case "subtle":
+        return (
+          <div className={styles.subtleWrapper}>
+            {Icon}
+            <p>{Label}</p>
+          </div>
+        );
+
+      case "withlabel":
+        return (
+          <div className={styles.expandWrapper}>
+            {headertitle && <span>{headertitle}</span>}
+            {Label}
+            {Icon}
+          </div>
+        );
+
+      case "drop":
+      default:
+        return (
+          <>
+            {Label}
+            {Icon}
+          </>
+        );
+    }
   };
 
   return (
-    <button
-      className={classNames}
-      onClick={handleClick}
+    // <NudgeContainer>
+    <div
       onMouseMove={handleMouseMove}
+      onTouchStart={handleTouchStart}
       onMouseLeave={hideTooltip}
-      onTouchStart={() => {}} // placeholder for mobile
+      onClick={handleClick}
       onKeyDown={handleKeyDown}
-      aria-label={label}
+      className={`${setButtonClass()} ${
+        !nointeractEffects && "standardMouseOverBounce"
+      }`}
+      role="button"
       aria-disabled={disable}
-      disabled={disable}
-      type="button"
-      style={{ position: "relative" }}
+      aria-label={label}
+      tabIndex={disable ? -1 : 0}
+      style={{ position: "relative", ...customStyles }} // <-- merge custom styles here
     >
-      {variantComponents[safeVariant]}
+      {renderContent()}
       {externalIcon && (
         <span className={styles.externalCornerIcon}>{externalIcon}</span>
       )}
-    </button>
+    </div>
+    // </NudgeContainer>
   );
 };

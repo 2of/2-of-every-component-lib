@@ -3,26 +3,55 @@ import clsx from "clsx";
 import styles from "./styles/ScrollableVerticalView.module.scss";
 import ProgressBar from "../Widgets/ProgressBar";
 
-export const VerticalScrollSection = ({ Header, children, sticky = true, narrow ,screenSize}) => {
+export const VerticalScrollSection = ({ Header, children, sticky, narrow,color="bg",index,isFirst,mobile,CustomBgComponent }) => {
+
   const headerClass = clsx(styles.sectionHeaderContainer, {
     [styles.stickyHeader]: sticky,
     [styles.narrow]: narrow,
+
   });
 
   const contentClass = clsx(styles.sectionContent, {
     [styles.narrow]: narrow,
-  });
+});
 
+
+
+
+  const displaycolor = () => { 
+    if (color) { 
+      if (color === "bg") return ""
+      if (color === "dark" ) return baseTheme["--darkbg"]
+      if (color === "accent" ) return 2
+    }
+    return color
+    }
+  
   return (
-    <section className={styles.section}>
+<section 
+  className={`${styles.section} ${isFirst && styles.growFirst} ${mobile && styles.desktop}`} 
+  style={{ background:displaycolor()}}
+>
+
+{/* <h1>tewst {isFirst ? "YES" : " NO" }</h1> */}
+    {displaycolor() === "custom" &&  
+
+    <div className={styles.sectionGradContainer}>
+      {/* <h1>test</h1> */}
+      <CustomBgComponent/>
+{/* <TrackedGradientBG/> */}
+    </div>}
+      <div className={styles.sectionContent}>
       {Header && (
         <div className={headerClass}>
-          <div className={`${styles.headerContentContainer} ${screenSize === "sm" && styles.mobile}`}>
+          <div className={`${styles.headerContentContainer} ${mobile&& styles.mobile}`}>
             <Header />
           </div>
         </div>
       )}
       <div className={contentClass}>{children}</div>
+
+      </div>
     </section>
   );
 };
@@ -32,12 +61,38 @@ export const VerticalScroll = ({
   trackVelocity = true,
   trackScrollPercent,
   staggerStart = false,
+  alignCenter = false,
+  padTopForNavDesktop = false,
+  padTopForNavMobile = false,
+  mobile,
+  handleNavTransparency
 }) => {
   const scrollRef = useRef(null);
   const [normalizedVelocity, setNormalizedVelocity] = useState(0);
   const [direction, setDirection] = useState("None");
   const [scrollPercent, setScrollPercent] = useState(0);
+
+
   const MAX_SCROLL_VELOCITY = 3000;
+
+
+
+
+useEffect(() => {
+  // console.log(scrollPerscent)
+  if (handleNavTransparency) { 
+  if (scrollPercent > 0.4) {
+    // console.log("1")
+    handleNavTransparency(true);
+  } else {
+        // console.log("2")
+    handleNavTransparency(false);
+  }
+  }
+
+}, [scrollPercent]);
+
+
 
   useEffect(() => {
     if (!trackVelocity && !trackScrollPercent) return;
@@ -78,28 +133,37 @@ export const VerticalScroll = ({
     return () => el?.removeEventListener("scroll", handleScroll);
   }, [trackVelocity, trackScrollPercent]);
 
-  const containerClass = clsx(
-    styles.scrollContainer,
-    trackVelocity
-      ? styles.scrollContainerVelocity
-      : styles.scrollContainerBounce
-  );
+ const containerClass = clsx(
+  styles.scrollContainer,
+mobile && styles.padBottomForMobileFriendliness,
+  trackVelocity
+    ? styles.scrollContainerVelocity
+    : styles.scrollContainerBounce,
+  !mobile && padTopForNavDesktop && styles.paddedforNavBarDesktop,
+mobile && !padTopForNavMobile && styles.paddedforNavBarMobile,
+  alignCenter && styles.alignCenter 
+);
 
-  const enhancedChildren = React.Children.map(children, (child) => {
-    if (!React.isValidElement(child)) return child;
+const enhancedChildren = React.Children.map(children, (child, index) => {
+  if (!React.isValidElement(child)) return child;
+const originalSticky = child.props.sticky;
+  const isSection = child.type?.name === "Section";
+  return isSection
+    ? React.cloneElement(child, {
+        sticky: originalSticky,
+        narrow: child.props.narrow,
+        index,
+        isFirst: index === 0, 
+      })
+    : child;
+});
 
-    const isSection = child.type?.name === "Section";
-    return isSection
-      ? React.cloneElement(child, {
-          sticky: true,
-          narrow: child.props.narrow,
-        })
-      : child;
-  });
 
   return (
     <div ref={scrollRef} className={containerClass}>
-      
+   
+
+
 
       {trackScrollPercent && (
         <div className={styles.progressBarOverlay}>
@@ -114,10 +178,19 @@ export const VerticalScroll = ({
           {/* {scrollPercent} */}
         </div>
       )}
-      <div className={styles.contentColumn}>
+      <div 
+      className={clsx(
+    styles.contentColumn,
+    alignCenter && styles.alignCenter
+  )}
+  >
         {staggerStart && <div className={styles.staggerSpacer} />}
         {enhancedChildren}
       </div>
+    
     </div>
   );
 };
+
+
+

@@ -1,0 +1,239 @@
+{
+  "TinderView": {
+    "description": "A UI component that displays an array of children as a stack of swipable cards, mimicking a 'Tinder-like' interface. Supports touch/mouse drag-and-swipe gestures (left and right) and optional external control.",
+    "usageExample": "<TinderView\n  setActiveIndex={setCardIndex}\n  setwiggle={true}\n  showNext={true}\n  conductnext={swipeCount} // controlled swipe via state change\n>\n  <div key=\"card-1\" style={{ background: 'red', padding: '20px' }}>Card Content 1</div>\n  <div key=\"card-2\" style={{ background: 'blue', padding: '20px' }}>Card Content 2</div>\n  <div key=\"card-3\" style={{ background: 'green', padding: '20px' }}>Card Content 3</div>\n</TinderView>",
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode[]",
+        "description": "The card elements to be displayed. Each direct child will be treated as a separate swipable card.",
+        "required": true,
+        "default": "N/A"
+      },
+      {
+        "name": "setActiveIndex",
+        "type": "(index: number) => void",
+        "description": "Callback function that is called when a new card becomes the top card (after a successful swipe). It receives the **index** of the newly active card.",
+        "required": false,
+        "default": "N/A"
+      },
+      {
+        "name": "setwiggle",
+        "type": "boolean",
+        "description": "If **true**, the component will trigger a subtle 'wiggle' (hint swipe to the left) animation on the top card after a brief delay to prompt the user for interaction.",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "showNext",
+        "type": "boolean",
+        "description": "If **true**, displays a 'Next' button in the controls area, which triggers a programmatic 'right' (like) swipe.",
+        "required": false,
+        "default": "true"
+      },
+      {
+        "name": "conductnext",
+        "type": "number",
+        "description": "A controlled prop. When its value **changes** (and is greater than 0), it programmatically executes a 'right' (like) swipe on the top card. Useful for external control.",
+        "required": false,
+        "default": "N/A"
+      }
+    ]
+  },
+  "VerticalScroll": {
+    "description": "A robust vertical scroll container for segmented pages. It tracks scroll metrics like velocity and percentage, manages layout adjustments for different screen sizes, and provides an external hook for managing UI elements like the navigation bar's transparency. It must be used with the **<VerticalScrollSection />** component as its direct children.",
+    "usageExample": "<VerticalScroll\n  trackScrollPercent={true}\n  staggerStart={true}\n  mobile={isMobileDevice}\n  handleNavTransparency={setNavBgTransparent}\n>\n  <VerticalScrollSection Header={() => <h2>Intro</h2>} color=\"bg\">\n    Page content...\n  </VerticalScrollSection>\n  <VerticalScrollSection Header={() => <h2>Details</h2>} sticky={true} narrow={true} color=\"dark\">\n    More detailed content...\n  </VerticalScrollSection>\n</VerticalScroll>",
+    "props": [
+      {
+        "name": "children",
+        "type": "<VerticalScrollSection />[]",
+        "description": "A list of **<VerticalScrollSection />** components that will be rendered as the scrollable content.",
+        "required": true,
+        "default": "N/A"
+      },
+      {
+        "name": "mobile",
+        "type": "boolean",
+        "description": "Flag indicating the current device size is mobile. Used internally for applying mobile-specific styling (e.g., bottom padding).",
+        "required": false,
+        "default": "N/A"
+      },
+      {
+        "name": "trackVelocity",
+        "type": "boolean",
+        "description": "If **true**, the component tracks the scroll speed and direction, calculating a normalized velocity (0 to 1).",
+        "required": false,
+        "default": "true"
+      },
+      {
+        "name": "trackScrollPercent",
+        "type": "boolean",
+        "description": "If **true**, the component tracks the scroll progress (0% to 100%) and displays a progress bar overlay.",
+        "required": false,
+        "default": "N/A (Implicitly false)"
+      },
+      {
+        "name": "staggerStart",
+        "type": "boolean",
+        "description": "If **true**, adds an initial vertical spacer before the first section, useful for staggering content from the top edge.",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "alignCenter",
+        "type": "boolean",
+        "description": "If **true**, horizontally centers the main content column within the scroll view.",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "padTopForNavDesktop",
+        "type": "boolean",
+        "description": "If **true** and not on mobile, applies top padding to account for a fixed desktop navigation bar.",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "padTopForNavMobile",
+        "type": "boolean",
+        "description": "If **true** and on mobile, applies top padding to account for a fixed mobile navigation bar.",
+        "required": false,
+        "default": "false"
+      },
+      {
+        "name": "handleNavTransparency",
+        "type": "(isTransparent: boolean) => void",
+        "description": "Callback function that is executed based on the scroll percentage. It receives **true** when scrolled past a small threshold (> 0.4%) and **false** otherwise. Used to manage the transparency of external navigation bars.",
+        "required": false,
+        "default": "N/A"
+      }
+    ],
+    "subComponents": [
+      {
+        "componentName": "VerticalScrollSection",
+        "description": "A structural component used inside **<VerticalScroll />** to define a distinct scrollable area with an optional header and custom background.",
+        "props": [
+          {
+            "name": "children",
+            "type": "ReactNode",
+            "description": "The main content of the section.",
+            "required": true,
+            "default": "N/A"
+          },
+          {
+            "name": "Header",
+            "type": "React.ComponentType",
+            "description": "A component to be rendered as the section's header.",
+            "required": false,
+            "default": "N/A"
+          },
+          {
+            "name": "sticky",
+            "type": "boolean",
+            "description": "If **true**, the **Header** component will remain fixed/sticky at the top of the viewport as the section content scrolls underneath it.",
+            "required": false,
+            "default": "false"
+          },
+          {
+            "name": "narrow",
+            "type": "boolean",
+            "description": "If **true**, applies a class to narrow the max-width of both the header and the content container.",
+            "required": false,
+            "default": "false"
+          },
+          {
+            "name": "color",
+            "type": "string",
+            "description": "Defines the background style/color for the section. Supported string values are: 'bg' (default background), 'dark', 'accent', or 'custom' (renders the provided **CustomBgComponent**).",
+            "required": false,
+            "default": "\"bg\""
+          },
+          {
+            "name": "CustomBgComponent",
+            "type": "React.ComponentType",
+            "description": "A custom component to be rendered as the section's background when `color` is set to **'custom'**.",
+            "required": false,
+            "default": "N/A"
+          }
+        ]
+      }
+    ]
+  },
+  "CenteredSmallerScrollElementContainer": {
+    "description": "A scroll container designed to display multiple child elements vertically, centered within the viewport, one 'page' at a time. It tracks the current element closest to the center/top of the view and provides navigation using **<PageDots />**.",
+    "usageExample": "<CenteredSmallerScrollElementContainer>\n  <div style={{ height: '300px' }}>Content Page 1</div>\n  <div style={{ height: '300px' }}>Content Page 2</div>\n  <div style={{ height: '300px' }}>Content Page 3</div>\n</CenteredSmallerScrollElementContainer>",
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode[]",
+        "description": "The elements (content 'pages') to be placed within the scroll container. Each direct child is treated as a separate scrollable section.",
+        "required": true,
+        "default": "N/A"
+      }
+    ],
+    "notes": "Uses the **<PageDots />** component internally for visual tracking and navigation. The container tracks the element whose top edge is closest to the container's top edge to determine the `currentPage`."
+  },
+  "PagedScrollContainer": {
+    "description": "A specialized vertical scroll container designed for 'paged' content, where sections are typically full-height and scroll one after another. It tracks the visibility percentage of each child section within the viewport and passes this metric down to the children, enabling scroll-linked effects like parallax.",
+    "usageExample": "<PagedScrollContainer borders={true}>\n  <div sectionHeight=\"full\" bgImage=\"/path/to/img1.jpg\">\n    {({ percentVisible }) => <ContentComponent visibility={percentVisible} />}\n  </div>\n  <div sectionHeight=\"half\">\n    <AnotherContentComponent />\n  </div>\n</PagedScrollContainer>",
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode[]",
+        "description": "The sections of content. Each direct child must be wrapped in a container element (e.g., a `div`) to allow passing custom props like `bgImage` and `sectionHeight`.",
+        "required": true,
+        "default": "N/A"
+      },
+      {
+        "name": "borders",
+        "type": "boolean",
+        "description": "If **true**, applies a bottom border to each section for visual separation.",
+        "required": false,
+        "default": "N/A (Implicitly false)"
+      }
+    ],
+    "childProps": [
+      {
+        "name": "sectionHeight",
+        "type": "\"full\" | \"half\"",
+        "description": "Custom prop applied to the direct child wrapper (`div`). Dictates the height of the section. 'full' is viewport height; 'half' is half viewport height.",
+        "required": false,
+        "default": "\"full\""
+      },
+      {
+        "name": "bgImage",
+        "type": "string",
+        "description": "Custom prop applied to the direct child wrapper (`div`). A URL for a background image that will be rendered behind the content with a slight parallax effect.",
+        "required": false,
+        "default": "N/A"
+      },
+      {
+        "name": "percentVisible",
+        "type": "number",
+        "description": "Injected prop/value (0 to 1) passed to the section's content. Represents the percentage of the content component that is currently visible in the scroll viewport. This is used for scroll-based animations.",
+        "required": false,
+        "default": "N/A"
+      }
+    ]
+  },"CenteredContainer": {
+    "description": "A simple layout component that centers its content both horizontally and vertically within the full viewport height. It dynamically adjusts its top padding based on the presence of a desktop navigation bar and ensures the navigation bar is transparent on render.",
+    "usageExample": "<CenteredContainer style={{ backgroundColor: '#f5f5f5' }}>\n  <h1>Welcome!</h1>\n  <p>This content is centered.</p>\n</CenteredContainer>",
+    "props": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "description": "The content to be centered within the container.",
+        "required": true,
+        "default": "N/A"
+      },
+      {
+        "name": "style",
+        "type": "React.CSSProperties",
+        "description": "Custom inline CSS styles to be applied to the container, overriding the default centering and layout styles.",
+        "required": false,
+        "default": "{}"
+      }
+    ],
+    "notes": "Automatically sets the navigation bar background to **transparent** on mount (`setNavBgTransparent(true)`) and dynamically adjusts `paddingTop` if a non-floating desktop navigation bar is detected."
+  }
+}
