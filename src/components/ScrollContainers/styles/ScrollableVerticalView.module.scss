@@ -18,7 +18,7 @@
   height: 100vh;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  background-color: var(--bg, #fff);
+  background-color: var(--bg, #894c4c);
 }
 
 .scrollContainerBounce {
@@ -60,7 +60,7 @@
   align-items: center;
 
   .headerContentContainer {
-    max-width: calc(var(--maxWidth, 960px) + 4rem);
+    // max-width: calc(var(--maxWidth, 1800px) + 4rem);
     width: 100%;
 
     &.mobile {
@@ -90,7 +90,7 @@ background-color: var(--bg);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  max-width: var(--maxWidth, 960px);
+  max-width: var(--maxWidth, 1400px);
 }
 
 .progressBarOverlay {

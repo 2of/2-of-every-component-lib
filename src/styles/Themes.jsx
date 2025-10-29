@@ -1,7 +1,7 @@
 export const lightTheme = {
   // Colors
   "--text-color": "#111",
-  "--bg": "#fff",
+  "--bg": "#e4e4e4ff",
   "--border-color": "#ddd",
   "--accent": "#0070f3",
   "--accent-hover": "#0051c3",

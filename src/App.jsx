@@ -1,18 +1,16 @@
-import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import { SamplePage } from "./SamplePage";
 import { PackageProviders } from "./PackProviders";
-import { ComponentWikiRenderer } from "./WikiPage";
-import usage from "./usage.json"
+import routes from "./routes";
 
 function App() {
-
   return (
     <PackageProviders>
       <Router>
         <Routes>
-          <Route path="/" element={<ComponentWikiRenderer componentDocs={usage} />} />
+          {routes.map(({ path, element }, i) => (
+            <Route key={i} path={path} element={element} />
+          ))}
         </Routes>
       </Router>
     </PackageProviders>
